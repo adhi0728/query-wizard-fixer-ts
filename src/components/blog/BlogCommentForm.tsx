@@ -14,6 +14,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 
+// Modify the schema to ensure content is required
 const formSchema = z.object({
   content: z.string().min(1, "Comment cannot be empty"),
 });
