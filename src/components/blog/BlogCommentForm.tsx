@@ -14,25 +14,29 @@ import {
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 
-// Modify the schema to ensure content is required
+// Define the schema to ensure content is required
 const formSchema = z.object({
   content: z.string().min(1, "Comment cannot be empty"),
 });
+
+// Define the form data type based on the schema
+type FormData = z.infer<typeof formSchema>;
 
 type BlogCommentFormProps = {
   onSubmit: (data: { content: string }) => void;
 };
 
 const BlogCommentForm = ({ onSubmit }: BlogCommentFormProps) => {
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       content: "",
     },
   });
 
-  const handleSubmit = (values: z.infer<typeof formSchema>) => {
-    onSubmit(values);
+  const handleSubmit = (values: FormData) => {
+    // Since FormData is derived from the schema, content is guaranteed to be a string
+    onSubmit({ content: values.content });
     form.reset();
   };
 
